@@ -1,0 +1,72 @@
+[
+  {
+    "caseNumber": "HR-1001",
+    "shortDescription": "Login issue",
+    "longDescription": "User unable to log into the HR portal after password reset.",
+    "personAffected": "John Doe",
+    "status": "Open"
+  },
+  {
+    "caseNumber": "HR-1002",
+    "shortDescription": "Payroll discrepancy",
+    "longDescription": "Employee reported incorrect deductions in last month's payslip.",
+    "personAffected": "Maria Smith",
+    "status": "Closed Complete"
+  },
+  {
+    "caseNumber": "HR-1003",
+    "shortDescription": "Leave balance issue",
+    "longDescription": "Vacation leave not updated after approval.",
+    "personAffected": "Rahul Mehta",
+    "status": "Closed Incomplete"
+  },
+  {
+    "caseNumber": "HR-1004",
+    "shortDescription": "Access request",
+    "longDescription": "New joiner requesting access to the HR dashboard.",
+    "personAffected": "Lina Chen",
+    "status": "Open"
+  },
+  {
+    "caseNumber": "HR-1005",
+    "shortDescription": "Policy clarification",
+    "longDescription": "Employee requested clarification on remote work policy.",
+    "personAffected": "David Johnson",
+    "status": "Closed Complete"
+  },
+  {
+    "caseNumber": "HR-1006",
+    "shortDescription": "Login issue - SSO error",
+    "longDescription": "User unable to log in using SSO after organization domain update.",
+    "personAffected": "John Doe",
+    "status": "Closed Complete"
+  },
+  {
+    "caseNumber": "HR-1007",
+    "shortDescription": "Login issue - password expired",
+    "longDescription": "Password expired and reset link not received via email.",
+    "personAffected": "John Doe",
+    "status": "Closed Incomplete"
+  },
+  {
+    "caseNumber": "HR-1008",
+    "shortDescription": "Access request follow-up",
+    "longDescription": "Pending approval for HR portal access for a new employee.",
+    "personAffected": "Lina Chen",
+    "status": "Closed Complete"
+  },
+  {
+    "caseNumber": "HR-1009",
+    "shortDescription": "Payroll discrepancy - bonus missing",
+    "longDescription": "Bonus component missing in the December payroll.",
+    "personAffected": "Maria Smith",
+    "status": "Open"
+  },
+  {
+    "caseNumber": "HR-1010",
+    "shortDescription": "Policy clarification - leave carryover",
+    "longDescription": "Employee asked about leave carryover to next financial year.",
+    "personAffected": "David Johnson",
+    "status": "Open"
+  }
+]
