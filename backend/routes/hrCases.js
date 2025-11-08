@@ -9,9 +9,23 @@ const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Base route to list all cases
+router.get("/", async (req, res) => {
+  try {
+    const filePath = path.join(__dirname, "../data.json");
+    console.log("Attempting to read file:", filePath);
+    const data = await fs.readFile(filePath, "utf8");
+    const cases = JSON.parse(data);
+    res.json({ cases: cases.slice(0, 10) }); // Return first 10 cases
+  } catch (err) {
+    console.error("❌ Error in base route:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 router.get("/related/:caseNumber", async (req, res) => {
   try {
-    const filePath = path.join(__dirname, "../../public/hr_tickets_workday_200.json");
+    const filePath = path.join(__dirname, "../data.json");
     const data = await fs.readFile(filePath, "utf8");
     const cases = JSON.parse(data);
 
@@ -64,4 +78,64 @@ router.get("/related/:caseNumber", async (req, res) => {
   }
 });
 
+// Return full case details (including solution) by case number
+router.get("/:caseNumber", async (req, res) => {
+  try {
+    const filePath = path.join(__dirname, "../data.json");
+    const data = await fs.readFile(filePath, "utf8");
+    const cases = JSON.parse(data);
+
+    const { caseNumber } = req.params;
+    const searchCaseNumber = caseNumber.toUpperCase();
+    const found = cases.find((c) => c.ticket_id === searchCaseNumber);
+    if (!found) return res.status(404).json({ error: "Case not found" });
+
+    res.json({ case: found });
+  } catch (err) {
+    console.error("❌ Error in GET /:caseNumber:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Add or update solution and status for a case and persist to JSON file
+router.post("/:caseNumber/solution", async (req, res) => {
+  try {
+    const { solution_text, status } = req.body;
+    if (typeof solution_text !== "string") {
+      return res.status(400).json({ error: "solution_text must be a string" });
+    }
+    if (status && !["Open", "In Progress", "Closed Complete"].includes(status)) {
+      return res.status(400).json({ error: "Invalid status value" });
+    }
+
+    const filePath = path.join(__dirname, "../data.json");
+    const data = await fs.readFile(filePath, "utf8");
+    const cases = JSON.parse(data);
+
+    const { caseNumber } = req.params;
+    const searchCaseNumber = caseNumber.toUpperCase();
+    const idx = cases.findIndex((c) => c.ticket_id === searchCaseNumber);
+    if (idx === -1) return res.status(404).json({ error: "Case not found" });
+
+    // Update solution and status
+    cases[idx].solution_text = solution_text;
+    if (status) {
+      cases[idx].status = status;
+    }
+    cases[idx].updated_at = new Date().toISOString();
+
+    // Persist back to file (atomic-ish: write to temp then rename)
+    const tmpPath = filePath + ".tmp";
+    await fs.writeFile(tmpPath, JSON.stringify(cases, null, 2), "utf8");
+    await fs.rename(tmpPath, filePath);
+
+    res.json({ case: cases[idx] });
+  } catch (err) {
+    console.error("❌ Error in POST /:caseNumber/solution:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 export default router;
+
+

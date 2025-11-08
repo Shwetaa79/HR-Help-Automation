@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "react-router-dom";
 
 export default function HrHelpCaseSearch() {
   const [query, setQuery] = useState("");
@@ -113,7 +114,13 @@ export default function HrHelpCaseSearch() {
             style={{ borderRadius: "12px" }}
           >
             <div className="card-body">
-              <h5 className="card-title text-primary">{mainCase.caseNumber}</h5>
+              <Link 
+                to={`/case/${mainCase.caseNumber}`}
+                state={{ isMainCase: true }}
+                className="text-decoration-none"
+              >
+                <h5 className="card-title text-primary">{mainCase.caseNumber}</h5>
+              </Link>
               <div className="d-flex justify-content-between mb-2">
                 <h6 className="card-subtitle text-muted">
                   {mainCase.shortDescription}
@@ -164,82 +171,87 @@ export default function HrHelpCaseSearch() {
               <div className="row g-4">
                 {relatedCases.map((item) => (
                   <div className="col-md-6" key={item.caseNumber}>
-                    <div
-                      className="card h-100 border-0 shadow-sm"
-                      style={{
-                        borderRadius: "12px",
-                        backgroundColor: "#f8f9fa",
-                      }}
-                    >
-                      <div className="card-body">
-                        <div className="d-flex justify-content-between align-items-center mb-2">
-                          <h6 className="text-primary mb-0 fw-bold">
-                            {item.caseNumber}
-                          </h6>
-                          <span
-                            className={`badge ${getBadgeClass(item.status)}`}
-                          >
-                            {item.status}
-                          </span>
-                        </div>
-                        <p className="text-muted small mb-2">
-                          {item.shortDescription}
-                        </p>
-                        <p className="small">{item.longDescription}</p>
-                        <p className="small mb-1">
-                          <strong>Person Affected:</strong>{" "}
-                          {item.personAffected}
-                        </p>
-
-                        {/* Relevance Score */}
-                        <div className="mt-3">
-                          <small className="text-muted d-block mb-1">
-                            Relevance Score
-                          </small>
-                          <div
-                            className="progress position-relative"
-                            style={{
-                              height: "10px",
-                              backgroundColor: "#e9ecef",
-                              borderRadius: "10px",
-                              overflow: "hidden",
-                            }}
-                          >
-                            <div
-                              className={`progress-bar progress-bar-striped progress-bar-animated ${getProgressClass(
-                                item.relevance
-                              )}`}
-                              role="progressbar"
-                              style={{
-                                width: `${item.relevance}%`,
-                                transition: "width 0.6s ease-in-out",
-                              }}
-                              aria-valuenow={item.relevance}
-                              aria-valuemin="0"
-                              aria-valuemax="100"
-                            ></div>
-                          </div>
-                          <div className="d-flex justify-content-between mt-1">
-                            <small
-                              className={`fw-semibold ${
-                                item.relevance >= 90
-                                  ? "text-success"
-                                  : "text-muted"
-                              }`}
+                    <Link 
+                      to={`/case/${item.caseNumber}`}
+                      state={{ isMainCase: false }}
+                      style={{ textDecoration: "none", color: "inherit" }}>
+                      <div
+                        className="card h-100 border-0 shadow-sm"
+                        style={{
+                          borderRadius: "12px",
+                          backgroundColor: "#f8f9fa",
+                        }}
+                      >
+                        <div className="card-body">
+                          <div className="d-flex justify-content-between align-items-center mb-2">
+                            <h6 className="text-primary mb-0 fw-bold">
+                              {item.caseNumber}
+                            </h6>
+                            <span
+                              className={`badge ${getBadgeClass(item.status)}`}
                             >
-                              {item.relevance === 100
-                                ? "Perfect match (100%)"
-                                : `${item.relevance}%`}
+                              {item.status}
+                            </span>
+                          </div>
+                          <p className="text-muted small mb-2">
+                            {item.shortDescription}
+                          </p>
+                          <p className="small">{item.longDescription}</p>
+                          <p className="small mb-1">
+                            <strong>Person Affected:</strong>{" "}
+                            {item.personAffected}
+                          </p>
+
+                          {/* Relevance Score */}
+                          <div className="mt-3">
+                            <small className="text-muted d-block mb-1">
+                              Relevance Score
                             </small>
-                            {item.relevance >= 90 && (
-                              <span role="img" aria-label="perfect">
-                                🌟
-                              </span>
-                            )}
+                            <div
+                              className="progress position-relative"
+                              style={{
+                                height: "10px",
+                                backgroundColor: "#e9ecef",
+                                borderRadius: "10px",
+                                overflow: "hidden",
+                              }}
+                            >
+                              <div
+                                className={`progress-bar progress-bar-striped progress-bar-animated ${getProgressClass(
+                                  item.relevance
+                                )}`}
+                                role="progressbar"
+                                style={{
+                                  width: `${item.relevance}%`,
+                                  transition: "width 0.6s ease-in-out",
+                                }}
+                                aria-valuenow={item.relevance}
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                              ></div>
+                            </div>
+                            <div className="d-flex justify-content-between mt-1">
+                              <small
+                                className={`fw-semibold ${
+                                  item.relevance >= 90
+                                    ? "text-success"
+                                    : "text-muted"
+                                }`}
+                              >
+                                {item.relevance === 100
+                                  ? "Perfect match (100%)"
+                                  : `${item.relevance}%`}
+                              </small>
+                              {item.relevance >= 90 && (
+                                <span role="img" aria-label="perfect">
+                                  🌟
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   </div>
                 ))}
               </div>
