@@ -63,7 +63,7 @@ export default function HrHelpCaseSearch() {
         <input
           type="text"
           className="form-control border-0"
-          placeholder="Search HR Case Number (e.g. HRT0000001)"
+          placeholder="Search HR Case Number (e.g. HR1188)"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => {
@@ -105,16 +105,44 @@ export default function HrHelpCaseSearch() {
           >
             <div className="card-body">
               <h5 className="card-title text-primary">{mainCase.caseNumber}</h5>
-              <h6 className="card-subtitle mb-2 text-muted">
-                {mainCase.shortDescription}
-              </h6>
+              <div className="d-flex justify-content-between mb-2">
+                <h6 className="card-subtitle text-muted">
+                  {mainCase.shortDescription}
+                </h6>
+                <div>
+                  <span className={`badge ${getBadgeClass(mainCase.status)} me-2`}>
+                    {mainCase.status}
+                  </span>
+                  <span className="badge bg-info">{mainCase.priority}</span>
+                </div>
+              </div>
               <p className="card-text">{mainCase.longDescription}</p>
-              <p>
-                <strong>Person Affected:</strong> {mainCase.personAffected}
-              </p>
-              <span className={`badge ${getBadgeClass(mainCase.status)}`}>
-                {mainCase.status}
-              </span>
+              <div className="mb-2">
+                <p className="mb-1">
+                  <strong>Person Affected:</strong> {mainCase.personAffected}
+                </p>
+                <p className="mb-1">
+                  <strong>Category:</strong> {mainCase.category}
+                </p>
+                <p className="mb-1">
+                  <strong>Assigned To:</strong> {mainCase.assignedGroup}
+                </p>
+                <p className="mb-1">
+                  <strong>Created:</strong> {new Date(mainCase.createdAt).toLocaleString()}
+                </p>
+                <p className="mb-1">
+                  <strong>Submitted By:</strong> {mainCase.submittedBy}
+                </p>
+              </div>
+              {mainCase.tags && (
+                <div>
+                  {mainCase.tags.split(";").map((tag, i) => (
+                    <span key={i} className="badge bg-light text-dark me-1">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

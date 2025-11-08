@@ -1,10 +1,20 @@
 [
   {
-    "caseNumber": "HRT0000001",
-    "shortDescription": "Login issue with HR portal",
-    "longDescription": "Unable to log into HR portal since password reset. The system keeps saying invalid credentials.",
-    "personAffected": "Alice Johnson",
-    "status": "Open"
+    "ticket_id": "HR1188",
+    "emplid": "814281",
+    "reported_for": "Rahul Sharma",
+    "short_desc": "Calculated field returning null",
+    "long_desc": "Custom report shows null values for calculated field 'Years of Service' for some workers.",
+    "solution_text": "Check calculated field logic, ensure correct data sources and fallbacks; republish report. Steps: 1) Verify related Workday business process and data. 2) Check integrations/logs. 3) If needed, escalate to Reporting Team.",
+    "tags": "reporting;workday;hr",
+    "category": "Reporting",
+    "business_process": "Absence",
+    "created_at": "2025-11-05 18:33:20",
+    "priority": "Medium",
+    "status": "Closed",
+    "assigned_group": "Reporting Team",
+    "submitted_by": "system",
+    "related_ticket_ids": ""
   },
   {
     "caseNumber": "HRT0000002",

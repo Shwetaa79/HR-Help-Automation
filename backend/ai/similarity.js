@@ -45,19 +45,17 @@ function cosineSimilarity(a, b) {
 export async function getRelatedCasesByCaseNumber(caseNumber, cases, topK = 5) {
   if (!embedder) throw new Error("Model not initialized. Call initModel() first.");
 
-  const found = cases.find(
-    (c) => c.caseNumber.toLowerCase() === caseNumber.toLowerCase()
-  );
+  const found = cases.find(c => c.ticket_id === caseNumber);
   if (!found) return { mainCase: null, related: [] };
 
-  const mainText = `${found.shortDescription} ${found.longDescription}`;
+  const mainText = `${found.short_desc} ${found.long_desc} ${found.category} ${found.tags}`;
   const mainVec = await getEmbedding(mainText);
 
   const scored = await Promise.all(
     cases
-      .filter((c) => c.caseNumber !== found.caseNumber)
+      .filter((c) => c.ticket_id !== found.ticket_id)
       .map(async (c) => {
-        const text = `${c.shortDescription} ${c.longDescription}`;
+        const text = `${c.short_desc} ${c.long_desc} ${c.category} ${c.tags}`;
         const vec = await getEmbedding(text);
         const sim = cosineSimilarity(mainVec, vec);
         const relevance = isNaN(sim) ? 0 : Math.round(sim * 100);
