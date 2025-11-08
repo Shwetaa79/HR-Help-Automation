@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 
 router.get("/related/:caseNumber", async (req, res) => {
   try {
-    const filePath = path.join(__dirname, "../mockData.json");
+    const filePath = path.join(__dirname, "../../public/hr_tickets_workday_200.json");
     const data = await fs.readFile(filePath, "utf8");
     const cases = JSON.parse(data);
 

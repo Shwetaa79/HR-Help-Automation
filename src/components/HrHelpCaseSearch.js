@@ -21,14 +21,23 @@ export default function HrHelpCaseSearch() {
           query.trim()
         )}`
       );
-      if (!res.ok) throw new Error("Case not found or backend error");
       const data = await res.json();
+      
+      if (!res.ok) {
+        throw new Error(data.error || "Case not found or backend error");
+      }
+
+      console.log("Response data:", data); // Debug log
+
+      if (!data.mainCase) {
+        throw new Error("Case not found");
+      }
 
       setMainCase(data.mainCase);
       setRelatedCases(data.relatedCases || []);
     } catch (err) {
-      console.error(err);
-      setError("No HR case found or server not responding.");
+      console.error("Search error:", err);
+      setError(err.message || "No HR case found or server not responding.");
     } finally {
       setLoading(false);
     }
