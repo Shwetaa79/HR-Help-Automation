@@ -1,39 +1,36 @@
 import React, { useState } from "react";
-import mockData from "../mockData.json";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function HrHelpCaseSearch() {
   const [query, setQuery] = useState("");
   const [mainCase, setMainCase] = useState(null);
   const [relatedCases, setRelatedCases] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSearch = () => {
-    const found = mockData.find((c) =>
-      c.caseNumber.toLowerCase().includes(query.toLowerCase())
-    );
+  const handleSearch = async () => {
+    if (!query.trim()) return;
+    setLoading(true);
+    setError("");
+    setMainCase(null);
+    setRelatedCases([]);
 
-    if (found) {
-      const keywords = found.shortDescription
-        .toLowerCase()
-        .split(" ")
-        .filter((w) => w.length > 3);
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/hr-cases/related/${encodeURIComponent(
+          query.trim()
+        )}`
+      );
+      if (!res.ok) throw new Error("Case not found or backend error");
+      const data = await res.json();
 
-      const relatedRanked = mockData
-        .filter((c) => c.caseNumber !== found.caseNumber)
-        .map((c) => {
-          const words = c.shortDescription.toLowerCase().split(" ");
-          const matches = keywords.filter((kw) => words.includes(kw)).length;
-          const score = Math.min((matches / keywords.length) * 100, 100);
-          return { ...c, matchCount: matches, relevance: Math.round(score) };
-        })
-        .filter((c) => c.matchCount > 0)
-        .sort((a, b) => b.relevance - a.relevance);
-
-      setMainCase(found);
-      setRelatedCases(relatedRanked);
-    } else {
-      setMainCase(null);
-      setRelatedCases([]);
+      setMainCase(data.mainCase);
+      setRelatedCases(data.relatedCases || []);
+    } catch (err) {
+      console.error(err);
+      setError("No HR case found or server not responding.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -60,15 +57,13 @@ export default function HrHelpCaseSearch() {
         HR Help Case Lookup
       </h3>
 
-      {/* Search bar */}
+      {/* Search Bar */}
       <div className="input-group mb-4 shadow-sm rounded-pill overflow-hidden">
-        <span className="input-group-text bg-light border-0 ps-4">
-          🔍
-        </span>
+        <span className="input-group-text bg-light border-0 ps-4">🔍</span>
         <input
           type="text"
           className="form-control border-0"
-          placeholder="Search HR Case Number (e.g. HR-1001)"
+          placeholder="Search HR Case Number (e.g. HRT0000001)"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => {
@@ -79,13 +74,29 @@ export default function HrHelpCaseSearch() {
         <button
           className="btn btn-success px-4 rounded-pill"
           onClick={handleSearch}
+          disabled={loading}
         >
-          Search
+          {loading ? "Searching..." : "Search"}
         </button>
       </div>
 
-      {/* Main case */}
-      {mainCase ? (
+      {/* Loading Spinner */}
+      {loading && (
+        <div className="text-center my-5">
+          <div className="spinner-border text-success" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="text-muted mt-2">Finding related HR cases...</p>
+        </div>
+      )}
+
+      {/* Error message */}
+      {error && !loading && (
+        <p className="text-center text-danger">{error}</p>
+      )}
+
+      {/* Main Case */}
+      {mainCase && !loading && (
         <div>
           <h5 className="mb-3 text-center text-success">Main Case</h5>
           <div
@@ -107,11 +118,11 @@ export default function HrHelpCaseSearch() {
             </div>
           </div>
 
-          {/* Related cases */}
-          {relatedCases.length > 0 && (
+          {/* Related Cases */}
+          {relatedCases.length > 0 ? (
             <>
               <h5 className="mb-3 text-center text-secondary fw-semibold">
-                Related Cases
+                Related Cases (AI Matched)
               </h5>
               <div className="row g-4">
                 {relatedCases.map((item) => (
@@ -142,25 +153,53 @@ export default function HrHelpCaseSearch() {
                           <strong>Person Affected:</strong>{" "}
                           {item.personAffected}
                         </p>
+
+                        {/* Relevance Score */}
                         <div className="mt-3">
                           <small className="text-muted d-block mb-1">
                             Relevance Score
                           </small>
-                          <div className="progress" style={{ height: "8px" }}>
+                          <div
+                            className="progress position-relative"
+                            style={{
+                              height: "10px",
+                              backgroundColor: "#e9ecef",
+                              borderRadius: "10px",
+                              overflow: "hidden",
+                            }}
+                          >
                             <div
-                              className={`progress-bar ${getProgressClass(
+                              className={`progress-bar progress-bar-striped progress-bar-animated ${getProgressClass(
                                 item.relevance
                               )}`}
                               role="progressbar"
-                              style={{ width: `${item.relevance}%` }}
+                              style={{
+                                width: `${item.relevance}%`,
+                                transition: "width 0.6s ease-in-out",
+                              }}
                               aria-valuenow={item.relevance}
                               aria-valuemin="0"
                               aria-valuemax="100"
                             ></div>
                           </div>
-                          <small className="text-muted">
-                            {item.relevance}%
-                          </small>
+                          <div className="d-flex justify-content-between mt-1">
+                            <small
+                              className={`fw-semibold ${
+                                item.relevance >= 90
+                                  ? "text-success"
+                                  : "text-muted"
+                              }`}
+                            >
+                              {item.relevance === 100
+                                ? "Perfect match (100%)"
+                                : `${item.relevance}%`}
+                            </small>
+                            {item.relevance >= 90 && (
+                              <span role="img" aria-label="perfect">
+                                🌟
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -168,14 +207,12 @@ export default function HrHelpCaseSearch() {
                 ))}
               </div>
             </>
+          ) : (
+            <p className="text-center text-muted">
+              No related cases found by AI.
+            </p>
           )}
         </div>
-      ) : (
-        query && (
-          <p className="text-center text-muted">
-            No HR case found for “{query}”.
-          </p>
-        )
       )}
     </div>
   );
