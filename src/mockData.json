@@ -1,0 +1,142 @@
+[
+  {
+    "caseNumber": "HRT0000001",
+    "shortDescription": "Login issue with HR portal",
+    "longDescription": "Unable to log into HR portal since password reset. The system keeps saying invalid credentials.",
+    "personAffected": "Alice Johnson",
+    "status": "Open"
+  },
+  {
+    "caseNumber": "HRT0000002",
+    "shortDescription": "Password reset not working",
+    "longDescription": "The password reset link on the HR portal does not send any email. Tried multiple times with no success.",
+    "personAffected": "Bob Smith",
+    "status": "Closed Complete"
+  },
+  {
+    "caseNumber": "HRT0000003",
+    "shortDescription": "Access denied to HR system",
+    "longDescription": "Employee reports being unable to access HR portal due to access permission issues after department transfer.",
+    "personAffected": "Charlie Evans",
+    "status": "Closed Incomplete"
+  },
+  {
+    "caseNumber": "HRT0000004",
+    "shortDescription": "Payroll not updated",
+    "longDescription": "Latest salary details not showing in HR portal. The employee was promoted last month but pay hasn't been revised.",
+    "personAffected": "Diana Patel",
+    "status": "Open"
+  },
+  {
+    "caseNumber": "HRT0000005",
+    "shortDescription": "Salary credited incorrectly",
+    "longDescription": "Employee received half salary this month. Needs urgent attention from payroll department.",
+    "personAffected": "Ethan Carter",
+    "status": "Closed Complete"
+  },
+  {
+    "caseNumber": "HRT0000006",
+    "shortDescription": "Leave request rejected automatically",
+    "longDescription": "The employee's leave request was rejected automatically without manager review. System glitch suspected.",
+    "personAffected": "Fiona Brown",
+    "status": "Closed Complete"
+  },
+  {
+    "caseNumber": "HRT0000007",
+    "shortDescription": "Unable to apply for leave",
+    "longDescription": "The 'Apply Leave' button is greyed out in HR portal. Employee unable to submit new leave request.",
+    "personAffected": "George Wilson",
+    "status": "Open"
+  },
+  {
+    "caseNumber": "HRT0000008",
+    "shortDescription": "Laptop replacement request",
+    "longDescription": "The laptop issued by HR is malfunctioning frequently. Employee has requested a replacement as per IT asset policy.",
+    "personAffected": "Hannah Lee",
+    "status": "Closed Complete"
+  },
+  {
+    "caseNumber": "HRT0000009",
+    "shortDescription": "Medical insurance not updated",
+    "longDescription": "Dependent details added last month are not reflected in the medical insurance policy summary on the HR portal.",
+    "personAffected": "Ian Thomas",
+    "status": "Open"
+  },
+  {
+    "caseNumber": "HRT0000010",
+    "shortDescription": "Login timeout issue",
+    "longDescription": "Session times out within 1 minute of login on the HR portal. Employee cannot complete tasks.",
+    "personAffected": "Jessica Miller",
+    "status": "Closed Incomplete"
+  },
+  {
+    "caseNumber": "HRT0000011",
+    "shortDescription": "Incorrect leave balance",
+    "longDescription": "Employee's leave balance shows negative even after recent approval. May need manual adjustment.",
+    "personAffected": "Kevin Turner",
+    "status": "Open"
+  },
+  {
+    "caseNumber": "HRT0000012",
+    "shortDescription": "Expense reimbursement delayed",
+    "longDescription": "Employee submitted claim two weeks ago but status still shows pending approval in HR portal.",
+    "personAffected": "Laura Chen",
+    "status": "Closed Complete"
+  },
+  {
+    "caseNumber": "HRT0000013",
+    "shortDescription": "Login authentication failed",
+    "longDescription": "Two-factor authentication fails to send OTP for HR portal access. User cannot log in.",
+    "personAffected": "Michael Scott",
+    "status": "Open"
+  },
+  {
+    "caseNumber": "HRT0000014",
+    "shortDescription": "Payroll tax deduction issue",
+    "longDescription": "Employee reports incorrect tax deductions in the recent payslip. HR payroll team needs to verify.",
+    "personAffected": "Nina Brown",
+    "status": "Closed Complete"
+  },
+  {
+    "caseNumber": "HRT0000015",
+    "shortDescription": "Unable to update address",
+    "longDescription": "Employee cannot edit address details in the HR portal profile section. The save button is disabled.",
+    "personAffected": "Oliver Jones",
+    "status": "Open"
+  },
+  {
+    "caseNumber": "HRT0000016",
+    "shortDescription": "Leave request not showing in approval queue",
+    "longDescription": "Manager cannot see subordinate’s leave request in HR system despite confirmation email being sent.",
+    "personAffected": "Priya Sharma",
+    "status": "Closed Incomplete"
+  },
+  {
+    "caseNumber": "HRT0000017",
+    "shortDescription": "Portal loading slowly",
+    "longDescription": "The HR help portal takes more than 2 minutes to load the dashboard page for some users.",
+    "personAffected": "Rajesh Gupta",
+    "status": "Open"
+  },
+  {
+    "caseNumber": "HRT0000018",
+    "shortDescription": "Email notification not received",
+    "longDescription": "No confirmation emails are received after submitting HR requests. Might be mail server or config issue.",
+    "personAffected": "Sophia White",
+    "status": "Closed Complete"
+  },
+  {
+    "caseNumber": "HRT0000019",
+    "shortDescription": "Timesheet submission failed",
+    "longDescription": "Error 502 appears while submitting timesheet for approval. Tried multiple browsers, same issue.",
+    "personAffected": "Tom Anderson",
+    "status": "Closed Incomplete"
+  },
+  {
+    "caseNumber": "HRT0000020",
+    "shortDescription": "Login not working after transfer",
+    "longDescription": "Employee transferred from another region cannot log into new HR instance. Possibly linked to regional domain mapping.",
+    "personAffected": "Uma Patel",
+    "status": "Open"
+  }
+]
